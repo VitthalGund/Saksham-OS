@@ -14,7 +14,7 @@ export async function callGemini(prompt: string, maxTokens = 400): Promise<GemRe
     }
 
     // Use gemini-1.5-flash for speed and cost
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent?key=${GEMINI_API_KEY}`;
 
     try {
         const response = await fetch(url, {

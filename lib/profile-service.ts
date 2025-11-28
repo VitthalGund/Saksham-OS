@@ -6,6 +6,7 @@ import Papa from "papaparse";
 
 export interface ProfileData {
     id: string;
+    userId?: string; // Explicit custom ID
     name: string;
     email?: string;
     role: string;
@@ -19,6 +20,8 @@ export interface ProfileData {
     total_earnings?: number;
     jobs_completed?: number;
     rating?: number;
+    credibilityScore?: number;
+    isBankConnected?: boolean;
     // Client specific
     company_name?: string;
     jobs_posted?: number;
@@ -36,14 +39,19 @@ export async function getProfileById(id: string): Promise<ProfileData | null> {
 
     if (dbUser) {
         return {
-            id: dbUser.userId || dbUser._id.toString(),
+            id: dbUser._id.toString(),
+            userId: dbUser.userId,
             name: dbUser.name,
             email: dbUser.email,
             phone: dbUser.phone,
             role: dbUser.role,
+            bio: dbUser.bio,
+            location: dbUser.location, // Assuming location exists on User model or add it if missing
             // Default/Empty values for new users
-            skills: [],
-            experience_years: 0,
+            skills: dbUser.skills || [],
+            experience_years: dbUser.experienceYears || 0,
+            credibilityScore: dbUser.credibilityScore || 0,
+            isBankConnected: dbUser.isBankConnected || false,
             total_earnings: 0,
             jobs_completed: 0,
             rating: 0,
@@ -55,27 +63,36 @@ export async function getProfileById(id: string): Promise<ProfileData | null> {
     // The previous file view showed them in `bubble-chart/data/`
 
     const csvDir = path.join(process.cwd(), 'bubble-chart', 'data');
+    
+    if (!fs.existsSync(csvDir)) {
+        console.warn(`CSV Directory not found: ${csvDir}`);
+    }
 
     // Check Freelancers
     try {
         const freelancersPath = path.join(csvDir, 'freelancers_profile.csv');
-        const freelancersCsv = fs.readFileSync(freelancersPath, 'utf8');
-        const { data: freelancers } = Papa.parse(freelancersCsv, { header: true });
-
-        const freelancer = freelancers.find((f: any) => f.freelancer_id === id);
-        if (freelancer) {
-            return {
-                id: freelancer.freelancer_id,
-                name: freelancer.name,
-                role: 'freelancer',
-                skills: freelancer.skills ? freelancer.skills.split(',').map((s: string) => s.trim()) : [],
-                experience_years: parseInt(freelancer.experience_years) || 0,
-                total_earnings: parseFloat(freelancer.total_revenue) || 0, // CSV might not have this exact field, need to check
-                // The CSV view showed: avg_earning_per_project, past_projects_count
-                // We can estimate total = avg * count
-                jobs_completed: parseInt(freelancer.past_projects_count) || 0,
-                rating: parseFloat(freelancer.credibility_score) || 0, // Using credibility as rating proxy
-            };
+        if (fs.existsSync(freelancersPath)) {
+            const freelancersCsv = fs.readFileSync(freelancersPath, 'utf8');
+            const { data: freelancers } = Papa.parse(freelancersCsv, { header: true });
+    
+            const freelancer = freelancers.find((f: any) => f.freelancer_id === id);
+            if (freelancer) {
+                return {
+                    id: freelancer.freelancer_id,
+                    userId: freelancer.freelancer_id,
+                    name: freelancer.name,
+                    role: 'freelancer',
+                    skills: freelancer.skills ? freelancer.skills.split(',').map((s: string) => s.trim()) : [],
+                    experience_years: parseInt(freelancer.experience_years) || 0,
+                    total_earnings: parseFloat(freelancer.total_revenue) || 0,
+                    jobs_completed: parseInt(freelancer.past_projects_count) || 0,
+                    rating: parseFloat(freelancer.credibility_score) || 0,
+                    credibilityScore: parseFloat(freelancer.credibility_score) || 0,
+                    isBankConnected: false // Default for CSV
+                };
+            }
+        } else {
+             console.warn(`Freelancers CSV not found at: ${freelancersPath}`);
         }
     } catch (e) {
         console.error("Error reading freelancers CSV", e);
@@ -84,19 +101,24 @@ export async function getProfileById(id: string): Promise<ProfileData | null> {
     // Check Clients
     try {
         const clientsPath = path.join(csvDir, 'clients_profile.csv');
-        const clientsCsv = fs.readFileSync(clientsPath, 'utf8');
-        const { data: clients } = Papa.parse(clientsCsv, { header: true });
-
-        const client = clients.find((c: any) => c.client_id === id || c.company_id === id); // Handle both IDs?
-        if (client) {
-            return {
-                id: client.client_id,
-                name: client.company_name, // Use company name for clients?
-                role: 'client',
-                company_name: client.company_name,
-                jobs_posted: parseInt(client.total_jobs_posted) || 0,
-                total_spent: parseFloat(client.avg_money_spent_per_project) * (parseInt(client.total_freelancers_hired) || 1), // Estimate
-            };
+        if (fs.existsSync(clientsPath)) {
+            const clientsCsv = fs.readFileSync(clientsPath, 'utf8');
+            const { data: clients } = Papa.parse(clientsCsv, { header: true });
+    
+            const client = clients.find((c: any) => c.client_id === id || c.company_id === id);
+            if (client) {
+                return {
+                    id: client.client_id,
+                    userId: client.client_id,
+                    name: client.company_name,
+                    role: 'client',
+                    company_name: client.company_name,
+                    jobs_posted: parseInt(client.total_jobs_posted) || 0,
+                    total_spent: parseFloat(client.avg_money_spent_per_project) * (parseInt(client.total_freelancers_hired) || 1),
+                };
+            }
+        } else {
+            console.warn(`Clients CSV not found at: ${clientsPath}`);
         }
     } catch (e) {
         console.error("Error reading clients CSV", e);

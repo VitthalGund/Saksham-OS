@@ -90,7 +90,7 @@ export default async function DashboardPage() {
 
   // 6. User Profile (for completeness/credibility)
   const user = await User.findOne({ userId }).lean();
-  const credibilityScore = (user as any)?.credibility_score || 50;
+  const credibilityScore = (user as any)?.credibilityScore || 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground flex">
@@ -107,7 +107,9 @@ export default async function DashboardPage() {
                   <UserIcon className="w-5 h-5 text-primary" />
                   <div>
                       <div className="text-xs text-muted-foreground">Credibility</div>
-                      <div className="font-bold">{credibilityScore}/100</div>
+                      <div className={`font-bold ${credibilityScore >= 70 ? 'text-green-500' : credibilityScore >= 40 ? 'text-yellow-500' : 'text-red-500'}`}>
+                          {credibilityScore}/100
+                      </div>
                   </div>
               </Card>
           </div>

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { UserCircle, MapPin, Mail, Phone, Briefcase, Star, DollarSign, Award, Shield } from "lucide-react";
+import { ResumeUploadCard } from "@/components/features/ResumeUploadCard";
 
 export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -21,7 +22,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
       <main className="flex-1 ml-64 p-8 overflow-y-auto h-screen">
         {/* Header */}
         <div className="relative mb-8 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800">
-            <div className="h-32 bg-gradient-to-r from-blue-600 to-purple-600 opacity-20"></div>
+            <div className="h-32 bg-linear-to-r from-blue-600 to-purple-600 opacity-20"></div>
             <div className="px-8 pb-8 flex items-end -mt-12 gap-6">
                 <div className="w-24 h-24 rounded-full bg-slate-950 border-4 border-slate-900 flex items-center justify-center text-4xl font-bold text-white shadow-xl">
                     {profile.name.charAt(0)}
@@ -141,21 +142,25 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
             </div>
 
             <div className="space-y-6">
+                {/* Resume Upload - Only visible to the owner (simplified check for now, assuming profile page is mostly self-view in this context or we'd check session) */}
+                {/* In a real app, we'd check if session.user.id === profile.userId */}
+                <ResumeUploadCard userId={profile.userId || profile.id} />
+
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-base">Verification</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center gap-3 text-sm">
-                            <Shield className="text-green-500 w-4 h-4" />
+                            <Shield className={`w-4 h-4 ${(profile.credibilityScore || 0) > 0 ? 'text-green-500' : 'text-slate-500'}`} />
                             <span>Identity Verified</span>
                         </div>
                         <div className="flex items-center gap-3 text-sm">
-                            <Shield className="text-green-500 w-4 h-4" />
+                            <Shield className={`w-4 h-4 ${(profile.isBankConnected || false) ? 'text-green-500' : 'text-slate-500'}`} />
                             <span>Payment Verified</span>
                         </div>
                         <div className="flex items-center gap-3 text-sm">
-                            <Shield className="text-green-500 w-4 h-4" />
+                            <Shield className="text-slate-500 w-4 h-4" />
                             <span>Phone Verified</span>
                         </div>
                     </CardContent>

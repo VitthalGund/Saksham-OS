@@ -43,10 +43,27 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    location: { type: String },
     bio: { type: String },
     preferences: {
         emailNotifications: { type: Boolean, default: true },
         publicProfile: { type: Boolean, default: false }
+    },
+    // Resume & Credibility Fields
+    skills: {
+        type: [String],
+        default: []
+    },
+    experienceYears: {
+        type: Number,
+        default: 0
+    },
+    credibilityScore: {
+        type: Number,
+        default: 0
+    },
+    resumeUploadedAt: {
+        type: Date
     }
 });
 

@@ -131,4 +131,43 @@ export function suggestRoleMatch(skillsFound: Record<string, string[]>) {
     return roleScores;
 }
 
+export function calculateYearsOfExperience(text: string): number {
+    const years: number[] = [];
+    
+    // Pattern 1: "5+ years experience" or "5 years of experience"
+    const explicitYears = text.match(/(\d+)\+?\s*years?/gi);
+    if (explicitYears) {
+        explicitYears.forEach(match => {
+            const num = parseInt(match.match(/\d+/)?.[0] || "0");
+            if (num < 40) years.push(num); // Sanity check
+        });
+    }
+
+    // Pattern 2: Date ranges "2018 - 2022" or "2018 - Present"
+    const dateRanges = text.match(/(\d{4})\s*-\s*(present|current|now|\d{4})/gi);
+    if (dateRanges) {
+        dateRanges.forEach(range => {
+            const parts = range.split('-');
+            const start = parseInt(parts[0].trim());
+            let end = new Date().getFullYear();
+            
+            const endPart = parts[1].trim().toLowerCase();
+            if (!['present', 'current', 'now'].includes(endPart)) {
+                end = parseInt(endPart);
+            }
+            
+            if (start <= end && (end - start) < 40) {
+                years.push(end - start);
+            }
+        });
+    }
+
+    if (years.length === 0) return 0;
+    
+    // Return the maximum found, assuming it represents total experience or the longest tenure
+    // Alternatively, we could sum them if they don't overlap, but that's complex. 
+    // Max is a safe heuristic for "Seniority".
+    return Math.max(...years);
+}
+
 export { JOB_ROLES };
