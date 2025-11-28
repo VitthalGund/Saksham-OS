@@ -5,8 +5,38 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { KeyRound, Phone, ArrowRight, Shield, Lock, CheckCircle } from "lucide-react";
 
-// ... inside component ...
+const ForgotPasswordPage = () => {
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    phone: "",
+    otp: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSendOTP = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "send",
+          phone: formData.phone,
+        }),
+      });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);

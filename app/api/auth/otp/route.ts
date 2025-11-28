@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         // 5. Send OTP (Mock)
         console.log(`[MOCK SMS] OTP for ${phone}: ${generatedOtp}`);
 
-        return NextResponse.json({ message: 'OTP sent successfully' });
+        return NextResponse.json({ message: 'OTP sent successfully', otp: generatedOtp });
     }
 
     else if (action === 'verify') {
