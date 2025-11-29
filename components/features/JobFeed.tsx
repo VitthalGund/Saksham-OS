@@ -104,7 +104,7 @@ export function JobFeed({ initialJobs }: JobFeedProps) {
             </h4>
             <div className="flex items-center justify-between text-xs text-muted-foreground mt-3">
               <div className="flex items-center gap-3">
-                <span>Match: <span className="text-white font-medium">{job.match_score || 95}%</span></span>
+                <span>Match: <span className="text-white font-medium">{job.match_score || 0}%</span></span>
                 {(job as any).days_to_complete && (
                   <span className="flex items-center gap-1">
                     <span className="text-blue-400">📅</span>

@@ -41,6 +41,7 @@ export function Sidebar() {
     { name: "Submit Work", href: "/freelancer/submit-work", icon: Bell, roles: ["freelancer"] },
 
     // Client Specific
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["client"] },
     { name: "Post Job", href: "/client/create-job", icon: PlusCircle, roles: ["client"] },
     { name: "Find Talent", href: "/client/find-freelancer", icon: Search, roles: ["client"] },
     { name: "My Hires", href: "/client/hires", icon: Users, roles: ["client"] },
@@ -67,7 +68,7 @@ export function Sidebar() {
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
-            <Link key={item.name} href={item.href}>
+            <Link key={item.href} href={item.href}>
               <div
                 className={cn(
                   "flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200",
