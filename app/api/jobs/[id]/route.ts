@@ -3,17 +3,23 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import dbConnect from "@/lib/db";
 import Job from "@/models/Job";
+import mongoose from "mongoose";
 
 export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     console.log(`[Job API] Request for ID: ${params.id}`);
     try {
-        const session = await getServerSession(authOptions as any) as Session | null;
+        const session:any = await getServerSession(authOptions as any) as Session | null;
         await dbConnect();
 
-        const job = await Job.findById(params.id);
+        let job;
+        if (mongoose.isValidObjectId(params.id)) {
+            job = await Job.findById(params.id);
+        } else {
+            job = await Job.findOne({ job_id: params.id });
+        }
+
         console.log(`[Job API] Job found: ${!!job}`);
-        console.log(`[Job API] Job found: ${job}`);
 
         if (!job) {
             return NextResponse.json({ message: "Job not found" }, { status: 404 });

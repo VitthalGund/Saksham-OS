@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"; // Schema updated
 import crypto from "crypto";
 
 const NotificationSchema = new mongoose.Schema({
@@ -10,7 +10,7 @@ const NotificationSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["job_match", "system", "message", "job_post", "job_bid", "proposal_received"], // Added proposal_received
+        enum: ["job_match", "system", "message", "job_post", "job_bid", "proposal_received", "schedule_alert", "smart_split", "invoice_nudge", "tax_review", "status_report"], // Added agent action types
         default: "system",
     },
     message: {
@@ -37,6 +37,11 @@ const NotificationSchema = new mongoose.Schema({
     required_hours_estimate: Number,
     deadline: String,
     job_status: String,
+    
+    // Metadata for actionable notifications (Smart Split, etc.)
+    metadata: {
+        type: mongoose.Schema.Types.Mixed, // Flexible object
+    },
 
     createdAt: {
         type: Date,

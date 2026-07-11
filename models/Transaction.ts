@@ -11,12 +11,18 @@ const TransactionSchema = new mongoose.Schema({
     description: { type: String },
     merchant_name: { type: String },
     transaction_category: { type: String },
+    
+    // Tax Agent Fields
+    deduction_status: { type: String, enum: ["auto_verified", "needs_review", "rejected", "approved"], default: "needs_review" },
+    deduction_confidence: { type: Number },
+    isDeductible: { type: Boolean },
+    
     date: { type: Date },
     balance_after_transaction: { type: Number },
     payment_method: { type: String },
     geo_location: { type: String },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now }
-});
+}, { strict: false });
 
 export default mongoose.models.Transaction || mongoose.model("Transaction", TransactionSchema);
