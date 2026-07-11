@@ -19,9 +19,17 @@ export async function POST(req: Request) {
 
         const body = await req.json();
 
+        // Calculate days_to_complete from deadline
+        let days_to_complete = 7; // default fallback
+        if (body.deadline) {
+            const diff = new Date(body.deadline).getTime() - new Date().getTime();
+            days_to_complete = Math.max(1, Math.ceil(diff / (1000 * 3600 * 24)));
+        }
+
         // Create Job in MongoDB
         const job: any = await Job.create({
             ...body,
+            days_to_complete,
             clientId: session.user.userId || session.user.id,
             clientName: session.user.name,
         });
@@ -58,14 +66,14 @@ export async function POST(req: Request) {
                     company_id: "COMP_NEW", // Mock
                     title: job.title,
                     job_category: job.job_category,
-                    budget_min: job.budgetMin,
-                    budget_max: job.budgetMax,
+                    budget_min: job.budget_min,
+                    budget_max: job.budget_max,
                     currency: job.currency,
                     urgency_level: "Medium",
-                    experience_level: job.experienceLevel,
-                    job_description: job.description,
+                    experience_level: job.experience_level,
+                    job_description: job.job_description,
                     skills: job.skills,
-                    required_hours_estimate: 20, // Mock
+                    required_hours_estimate: job.required_hours_estimate || 20,
                     job_status: "Open",
                     match_score: 95, // Mock
                     platform: "Saksham",
@@ -96,6 +104,16 @@ export async function POST(req: Request) {
             // Don't fail the request if file sync fails, just log it
         }
         // ---------------------------------------
+
+        // Emit Socket Event for Real-time Notifications
+        if ((global as any).io) {
+            notifications.forEach(n => {
+                (global as any).io.to(n.recipientId).emit("notification", {
+                    message: n.message,
+                    jobId: n.relatedJobId.toString()
+                });
+            });
+        }
 
         return NextResponse.json({ message: "Job posted successfully", jobId: job._id, matches: notifications.length }, { status: 201 });
 

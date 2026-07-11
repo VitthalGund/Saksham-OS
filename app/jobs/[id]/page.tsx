@@ -23,7 +23,7 @@ export default function JobDetailsPage() {
   const [proposal, setProposal] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const isClient = session?.user?.id === job?.clientId;
+  const isClient = session?.user?.id === job?.clientId || session?.user?.userId === job?.clientId;
   const isFreelancer = session?.user?.role === "freelancer";
 
   const fetchJob = async () => {
@@ -87,6 +87,42 @@ export default function JobDetailsPage() {
     }
   };
 
+  const handleRejectBid = async (freelancerId: string) => {
+    if (!confirm("Are you sure you want to reject this bid?")) return;
+    
+    try {
+      const res = await fetch(`/api/jobs/${id}/reject`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ freelancerId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      
+      toast.success("Bid rejected.");
+      fetchJob();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleApproveWork = async () => {
+    if (!confirm("Are you sure you want to approve this work? Payment will be released to the freelancer.")) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/jobs/${id}/approve-work`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      
+      toast.success("Work approved! Escrow payment released.");
+      fetchJob();
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   if (loading) return <div className="flex items-center justify-center h-screen bg-slate-950 text-white">Loading...</div>;
   if (!job) return <div className="flex items-center justify-center h-screen bg-slate-950 text-white">Job not found</div>;
 
@@ -128,12 +164,35 @@ export default function JobDetailsPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex flex-wrap gap-2">
-                                {job.skills.map((skill: string, i: number) => (
+                                {job.skills?.map((skill: string, i: number) => (
                                     <Badge key={i} variant="outline">{skill}</Badge>
                                 ))}
                             </div>
                         </CardContent>
                     </Card>
+
+                    {/* Client View: Review Work */}
+                    {isClient && job.status === "Pending Review" && job.submission && (
+                        <Card className="border-primary bg-primary/5">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <CheckCircle className="text-primary" />
+                                    Work Submitted for Review
+                                </CardTitle>
+                                <CardDescription>The freelancer has submitted their work. Please review and approve to release payment.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="bg-background p-4 rounded-md border">
+                                    <p className="text-sm font-medium mb-1">Freelancer Notes:</p>
+                                    <p className="text-muted-foreground whitespace-pre-wrap">{job.submission.notes || "No notes provided."}</p>
+                                    <p className="text-xs text-muted-foreground mt-4">Submitted on: {new Date(job.submission.submittedAt).toLocaleString()}</p>
+                                </div>
+                                <Button className="w-full" onClick={handleApproveWork} disabled={submitting}>
+                                    {submitting ? "Approving..." : "Approve Work & Release Payment"}
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    )}
 
                     {/* Client View: Bids List */}
                     {isClient && (
@@ -142,7 +201,7 @@ export default function JobDetailsPage() {
                                 <CardTitle>Received Bids ({job.bids?.length || 0})</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                {job.bids?.length === 0 ? (
+                                {!job.bids || job.bids.length === 0 ? (
                                     <p className="text-muted-foreground">No bids yet.</p>
                                 ) : (
                                     job.bids.map((bid: any) => (
@@ -154,7 +213,10 @@ export default function JobDetailsPage() {
                                                 <p className="text-xs text-slate-500 mt-2">Bid placed on {new Date(bid.createdAt).toLocaleDateString()}</p>
                                             </div>
                                             {job.status === "Open" && (
-                                                <Button onClick={() => handleAcceptBid(bid.freelancerId)}>Accept Bid</Button>
+                                                <div className="flex gap-2 flex-col sm:flex-row">
+                                                    <Button onClick={() => handleAcceptBid(bid.freelancerId)}>Accept Bid</Button>
+                                                    <Button variant="danger" onClick={() => handleRejectBid(bid.freelancerId)}>Reject Bid</Button>
+                                                </div>
                                             )}
                                         </div>
                                     ))
@@ -166,6 +228,34 @@ export default function JobDetailsPage() {
 
                 {/* Sidebar Stats & Actions */}
                 <div className="space-y-6">
+                    {/* Escrow Arbiter Status */}
+                    {job.status !== "Open" && (
+                        <Card className="border-blue-500 bg-blue-500/10">
+                            <CardHeader>
+                                <CardTitle className="text-blue-500 flex items-center gap-2">
+                                    <DollarSign className="w-5 h-5" />
+                                    Arbiter Escrow
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm font-medium mb-1">Status: {job.status === "Completed" ? "Released" : "Holding Funds"}</p>
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    {job.status === "Completed" 
+                                        ? "Funds have been released to the freelancer." 
+                                        : "Funds are securely held in escrow until work is approved."}
+                                </p>
+                                {job.bids && job.assignedFreelancerId && (
+                                    <div className="flex justify-between items-center text-lg font-bold">
+                                        <span>Amount:</span>
+                                        <span className="text-blue-400">
+                                            ${job.bids.find((b: any) => b.freelancerId === job.assignedFreelancerId || b.freelancerId === job.assignedFreelancerId.toString())?.amount || 0}
+                                        </span>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
+
                     <Card>
                         <CardHeader>
                             <CardTitle>Budget & Stats</CardTitle>

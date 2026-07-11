@@ -17603,5 +17603,76 @@
     "match_score": 95,
     "platform": "Saksham",
     "posted_at": "2025-11-27T17:22:03.954Z"
+  },
+  {
+    "job_id": "6a526f048a46e21d21df8ff7",
+    "client_id": "user_101",
+    "company_id": "COMP_NEW",
+    "title": "web developer",
+    "job_category": "Web Development",
+    "budget_min": 10000,
+    "budget_max": 16000,
+    "currency": "INR",
+    "urgency_level": "Medium",
+    "experience_level": "Mid",
+    "job_description": "fast worker needed",
+    "skills": [
+      "Solidity",
+      "3.js",
+      "Next.js"
+    ],
+    "required_hours_estimate": 45,
+    "job_status": "Open",
+    "match_score": 95,
+    "platform": "Saksham",
+    "posted_at": "2026-07-11T16:27:49.092Z"
+  },
+  {
+    "job_id": "6a529d7fcefd70275c626543",
+    "client_id": "user_101",
+    "company_id": "COMP_NEW",
+    "title": "blockchain dev",
+    "job_category": "Blockchain",
+    "budget_min": 20000,
+    "budget_max": 30000,
+    "currency": "INR",
+    "urgency_level": "Medium",
+    "experience_level": "Mid",
+    "job_description": "expertise in blockchain fundamentals, private and public both",
+    "skills": [
+      "Solidity",
+      "Graffana",
+      "Next.js"
+    ],
+    "required_hours_estimate": 50,
+    "job_status": "InProgress",
+    "match_score": 95,
+    "platform": "Saksham",
+    "posted_at": "2026-07-11T19:46:07.972Z",
+    "assigned_freelancer_id": "user_1783781379002"
+  },
+  {
+    "job_id": "6a52aa87cefd70275c62664d",
+    "client_id": "user_101",
+    "company_id": "COMP_NEW",
+    "title": "gen ai developer",
+    "job_category": "AI/ML",
+    "budget_min": 20000,
+    "budget_max": 35000,
+    "currency": "INR",
+    "urgency_level": "Medium",
+    "experience_level": "Mid",
+    "job_description": "need an experienced ai programmer",
+    "skills": [
+      "genai",
+      "transformers",
+      "llm"
+    ],
+    "required_hours_estimate": 50,
+    "job_status": "InProgress",
+    "match_score": 95,
+    "platform": "Saksham",
+    "posted_at": "2026-07-11T20:41:43.659Z",
+    "assigned_freelancer_id": "user_1783781379002"
   }
 ]

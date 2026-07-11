@@ -60,6 +60,42 @@ export async function getProfileById(id: string): Promise<ProfileData | null> {
     const dbUser = await User.findOne(query);
 
     if (dbUser) {
+        const userIdStr = dbUser.userId || dbUser._id.toString();
+        let total_earnings = 0;
+        let jobs_completed = 0;
+        let total_spent = 0;
+        let jobs_posted = 0;
+
+        try {
+            const Job = (await import("@/models/Job")).default;
+            const Transaction = (await import("@/models/Transaction")).default;
+
+            if (dbUser.role === 'freelancer') {
+                jobs_completed = await Job.countDocuments({ 
+                    assignedFreelancerId: { $in: [dbUser.userId, dbUser._id.toString()] },
+                    status: "Completed"
+                });
+
+                const credits = await Transaction.aggregate([
+                    { $match: { user_id: { $in: [dbUser.userId, dbUser._id.toString()] }, transaction_type: "CREDIT" } },
+                    { $group: { _id: null, total: { $sum: "$amount" } } }
+                ]);
+                total_earnings = credits[0]?.total || 0;
+            } else if (dbUser.role === 'client') {
+                jobs_posted = await Job.countDocuments({ 
+                    clientId: { $in: [dbUser.userId, dbUser._id.toString()] }
+                });
+                
+                const debits = await Transaction.aggregate([
+                    { $match: { user_id: { $in: [dbUser.userId, dbUser._id.toString()] }, transaction_type: "DEBIT" } },
+                    { $group: { _id: null, total: { $sum: "$amount" } } }
+                ]);
+                total_spent = debits[0]?.total || 0;
+            }
+        } catch (e) {
+            console.error("Error calculating profile stats:", e);
+        }
+
         return {
             id: dbUser._id.toString(),
             userId: dbUser.userId,
@@ -68,15 +104,16 @@ export async function getProfileById(id: string): Promise<ProfileData | null> {
             phone: dbUser.phone,
             role: dbUser.role,
             bio: dbUser.bio,
-            location: dbUser.location, // Assuming location exists on User model or add it if missing
-            // Default/Empty values for new users
+            location: dbUser.location,
             skills: dbUser.skills || [],
             experience_years: dbUser.experienceYears || 0,
             credibilityScore: dbUser.credibilityScore || 0,
             isBankConnected: dbUser.isBankConnected || false,
-            total_earnings: 0,
-            jobs_completed: 0,
-            rating: 0,
+            total_earnings,
+            jobs_completed,
+            total_spent,
+            jobs_posted,
+            rating: dbUser.credibilityScore || 0,
         };
     }
 

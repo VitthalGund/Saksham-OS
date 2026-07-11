@@ -14,25 +14,24 @@ export async function GET() {
 
         await dbConnect();
 
-        // Fetch jobs that are InProgress or Completed for this client
+        const validIds = [session.user.id, session.user.userId].filter(Boolean);
+        // Fetch jobs that are InProgress, Pending Review, or Completed for this client
         const jobs = await Job.find({
-            clientId: session.user.id,
-            status: { $in: ["InProgress", "Completed"] }
+            clientId: { $in: validIds },
+            status: { $in: ["InProgress", "Pending Review", "Completed"] }
         }).sort({ createdAt: -1 });
-
-        // We might want to enrich this with freelancer details if they aren't fully stored on the job
-        // For now, Job model has assignedFreelancerId. We can fetch names if needed, 
-        // but the Job model update in previous steps didn't explicitly add freelancerName to the root, 
-        // only to the bids. 
-        // However, the `accept` route sets `assignedFreelancerId`.
-        // Let's fetch the freelancer name for each job.
 
         const jobsWithFreelancers = await Promise.all(jobs.map(async (job: any) => {
             let freelancerName = "Unknown Freelancer";
             let freelancerEmail = "";
 
             if (job.assignedFreelancerId) {
-                const freelancer = await User.findOne({ userId: job.assignedFreelancerId });
+                const freelancerQuery: any = { $or: [{ userId: job.assignedFreelancerId }] };
+                if (job.assignedFreelancerId.match(/^[0-9a-fA-F]{24}$/)) {
+                    freelancerQuery.$or.push({ _id: job.assignedFreelancerId });
+                }
+                
+                const freelancer = await User.findOne(freelancerQuery);
                 if (freelancer) {
                     freelancerName = freelancer.name;
                     freelancerEmail = freelancer.email;

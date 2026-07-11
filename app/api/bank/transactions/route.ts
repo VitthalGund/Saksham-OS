@@ -12,8 +12,8 @@ export async function GET() {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        await dbConnect();
-        const transactions = await Transaction.find({ user_id: session.user.id }).sort({ date: -1 });
+        const validIds = [session.user.id, session.user.userId].filter(Boolean);
+        const transactions = await Transaction.find({ user_id: { $in: validIds } }).sort({ date: -1 });
         return NextResponse.json(transactions);
 
     } catch (error: any) {

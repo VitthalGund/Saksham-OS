@@ -14,7 +14,7 @@ export async function GET() {
         await dbConnect();
 
         const jobs = await Job.find({
-            assignedFreelancerId: session.user.id,
+            assignedFreelancerId: { $in: [session.user.id, session.user.userId].filter(Boolean) },
             status: "InProgress"
         }).select("title clientName _id");
 

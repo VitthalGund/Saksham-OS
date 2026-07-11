@@ -52,6 +52,22 @@ def to_iso(dt):
 
 def load_all():
     jobs = safe_read_csv(JOBS_CSV)
+    
+    # Also load the dynamic JSON jobs (from Next.js app)
+    json_jobs_path = os.path.join(DATA_DIR, "..", "..", "public", "data", "dummy_job_feed_v3.json")
+    if os.path.exists(json_jobs_path):
+        try:
+            with open(json_jobs_path, "r", encoding="utf-8") as f:
+                json_data = json.load(f)
+            if json_data:
+                json_df = pd.DataFrame(json_data)
+                # Map JSON keys to CSV columns if needed, although graph_builder checks for both formats.
+                # Specifically need to map assigned_freelancer_id
+                if not json_df.empty:
+                    jobs = pd.concat([jobs, json_df], ignore_index=True)
+        except Exception as e:
+            print(f"[WARN] Could not read {json_jobs_path}: {e}")
+
     invoices = safe_read_csv(INVOICES_CSV)
     txns = safe_read_csv(TXNS_CSV)
     freelancers = safe_read_csv(FREELANCERS_CSV)

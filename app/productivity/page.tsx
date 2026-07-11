@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -17,6 +18,8 @@ const EVENT_TYPES = [
 ];
 
 export default function ProductivityPage() {
+  const { data: session } = useSession();
+  
   // State
   const [tasks, setTasks] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
@@ -140,10 +143,61 @@ export default function ProductivityPage() {
   };
 
   // Calendar Helpers
-  const getDaysInMonth = () => Array.from({ length: 30 }, (_, i) => i + 1);
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentMonthName = currentDate.toLocaleString('default', { month: 'long' });
+  const daysInCurrentMonth = new Date(currentYear, currentMonth, 0).getDate();
+  const currentMonthPrefix = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+
+  const userId = (session?.user as any)?.id || (session?.user as any)?.userId;
+  const jobMilestones: any[] = [];
+  if (userId) {
+    jobs.forEach(job => {
+        const isMyJob = job.assignedFreelancerId && (job.assignedFreelancerId === userId || job.assignedFreelancerId?.toString() === userId?.toString());
+        
+        // 1. Bid Placed
+        const myBid = job.bids?.find((b: any) => b.freelancerId === userId || b.freelancerId?.toString() === userId?.toString());
+        if (myBid && myBid.createdAt) {
+            jobMilestones.push({
+                event_id: `bid-${job.job_id || job._id}`,
+                title: `Bid Placed: ${job.title}`,
+                start_time: new Date(myBid.createdAt).toISOString().split('T')[0],
+                type: 'NetworkEvent',
+                isMilestone: true
+            });
+        }
+        
+        // 2. Job Accepted
+        if (isMyJob && job.acceptedAt) {
+            jobMilestones.push({
+                event_id: `accepted-${job.job_id || job._id}`,
+                title: `Bid Accepted: ${job.title}`,
+                start_time: new Date(job.acceptedAt).toISOString().split('T')[0],
+                type: 'Personal',
+                isMilestone: true
+            });
+        }
+        
+        // 3. Work Submitted
+        if (isMyJob && job.submission?.submittedAt) {
+            jobMilestones.push({
+                event_id: `submit-${job.job_id || job._id}`,
+                title: `Work Submitted: ${job.title}`,
+                start_time: new Date(job.submission.submittedAt).toISOString().split('T')[0],
+                type: 'ProjectDeadline',
+                isMilestone: true
+            });
+        }
+    });
+  }
+
+  const allEvents = [...events, ...jobMilestones];
+
+  const getDaysInMonth = () => Array.from({ length: daysInCurrentMonth }, (_, i) => i + 1);
   const getEventsForDate = (day: number) => {
-    const dateStr = `2025-11-${day.toString().padStart(2, '0')}`;
-    const dayEvents = events.filter(e => e.start_time === dateStr);
+    const dateStr = `${currentMonthPrefix}-${day.toString().padStart(2, '0')}`;
+    const dayEvents = allEvents.filter(e => e.start_time === dateStr);
     const dayTasks = tasks.filter(t => t.dueDate === dateStr);
     return [...dayEvents, ...dayTasks.map(t => ({ ...t, type: 'Task', event_id: t.id }))];
   };
@@ -207,8 +261,8 @@ export default function ProductivityPage() {
                       onChange={(e) => setSelectedJobId(e.target.value)}
                     >
                       <option value="" className="bg-slate-900">Assign Job</option>
-                      {jobs.map(job => (
-                        <option key={job.job_id || job._id} value={job.job_id || job._id} className="bg-slate-900">{job.title}</option>
+                      {jobs.map((job, index) => (
+                        <option key={job.job_id || job._id || index} value={job.job_id || job._id} className="bg-slate-900">{job.title}</option>
                       ))}
                     </select>
                   </div>
@@ -218,7 +272,7 @@ export default function ProductivityPage() {
                 <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                   <AnimatePresence>
                     {/* Merge Tasks and Events for Display */}
-                    {[...tasks, ...events].sort((a, b) => {
+                    {[...tasks, ...allEvents].sort((a, b) => {
                         const dateA = a.createdAt || a.start_time || "";
                         const dateB = b.createdAt || b.start_time || "";
                         return dateB.localeCompare(dateA); // Newest first
@@ -238,12 +292,12 @@ export default function ProductivityPage() {
                               <CheckCircle className={`w-5 h-5 ${item.done ? 'fill-current' : ''}`} />
                             </button>
                           ) : (
-                             <div className={`w-2 h-2 rounded-full ${EVENT_TYPES.find(t => t.value === item.event_type)?.color.split(' ')[0].replace('/10', '')}`} />
+                             <div className={`w-2 h-2 rounded-full ${EVENT_TYPES.find(t => t.value === item.type)?.color?.split(' ')[0]?.replace('/10', '') || 'bg-purple-500'}`} />
                           )}
                           
                           <div className="min-w-0">
                             <p className={`text-sm font-medium truncate text-white ${item.done ? 'line-through text-gray-500' : ''}`}>
-                              {isEvent ? item.title : item.title}
+                              {item.title}
                             </p>
                             <div className="flex gap-2 text-xs text-gray-400 mt-1">
                                 {(item.dueDate || item.start_time) && (
@@ -261,14 +315,16 @@ export default function ProductivityPage() {
                             </div>
                           </div>
                         </div>
-                        <button onClick={() => isEvent ? deleteEvent(item.event_id) : deleteTask(item.id)} className="text-gray-500 hover:text-red-400 shrink-0 ml-2">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        {!item.isMilestone && (
+                            <button onClick={() => isEvent ? deleteEvent(item.event_id) : deleteTask(item.id)} className="text-gray-500 hover:text-red-400 shrink-0 ml-2">
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                        )}
                       </motion.div>
                       );
                     })}
                   </AnimatePresence>
-                  {[...tasks, ...events].length === 0 && !loading && (
+                  {[...tasks, ...allEvents].length === 0 && !loading && (
                     <p className="text-center text-gray-500 text-sm py-4">No tasks or events yet.</p>
                   )}
                 </div>
@@ -281,7 +337,7 @@ export default function ProductivityPage() {
             <Card className="h-full flex flex-col bg-black/40 backdrop-blur-xl border-white/10 overflow-hidden">
               <CardHeader className="border-b border-white/10 pb-4">
                 <CardTitle className="text-white flex justify-between items-center">
-                  <span>November 2025</span>
+                  <span>{currentMonthName} {currentYear}</span>
                   <div className="flex gap-2 text-xs font-normal text-gray-400">
                     <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500"></div> Deadline</span>
                     <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-blue-500"></div> Network</span>
@@ -302,14 +358,14 @@ export default function ProductivityPage() {
                   
                   {getDaysInMonth().map(day => {
                     const dayItems = getEventsForDate(day);
-                    const isSelected = selectedDate === `2025-11-${day.toString().padStart(2, '0')}`;
+                    const isSelected = selectedDate === `${currentMonthPrefix}-${day.toString().padStart(2, '0')}`;
                     
                     return (
                       <motion.button
                         key={day}
                         whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setSelectedDate(`2025-11-${day.toString().padStart(2, '0')}`)}
+                        onClick={() => setSelectedDate(`${currentMonthPrefix}-${day.toString().padStart(2, '0')}`)}
                         className={`
                           aspect-square rounded-xl border p-2 flex flex-col items-start justify-between transition-all relative group
                           ${isSelected ? 'bg-white/20 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'bg-white/5 border-white/10 hover:border-white/30'}
@@ -382,12 +438,14 @@ export default function ProductivityPage() {
                                   </p>
                                 </div>
                               </div>
-                              <button 
-                                onClick={() => item.type === 'Task' ? deleteTask(item.id) : deleteEvent(item.event_id)} 
-                                className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-400 transition-opacity"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
+                              {!item.isMilestone && (
+                                <button 
+                                  onClick={() => item.type === 'Task' ? deleteTask(item.id) : deleteEvent(item.event_id)} 
+                                  className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-400 transition-opacity"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
                             </div>
                           </motion.div>
                         ))}

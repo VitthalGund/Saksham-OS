@@ -67,6 +67,14 @@ export async function POST(req: Request, props: { params: Promise<{ id: string }
                 read: false,
                 createdAt: new Date()
             });
+
+            // Emit Socket Event
+            if ((global as any).io) {
+                (global as any).io.to(clientId).emit("notification", {
+                    message: `New Bid: ${session.user.name} applied for ${jobTitle}.`,
+                    jobId
+                });
+            }
         }
 
         return NextResponse.json({ success: true, message: "Bid submitted successfully" });

@@ -28,24 +28,22 @@ export function Sidebar() {
   // Define all possible nav items
   const allNavItems = [
     // Common
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["freelancer"] },
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["freelancer", "client"] },
     { name: "Command Center", href: "/command-center", icon: LayoutDashboard, roles: ["freelancer"] },
     { name: "Network", href: "/network", icon: Network, roles: ["freelancer", "client"] },
     { name: "Notifications", href: "/notifications", icon: Bell, roles: ["freelancer", "client"] },
+    { name: role === "client" ? "Payments" : "Financial Hub", href: "/finance", icon: Wallet, roles: ["freelancer", "client"] },
     
     // Freelancer Specific
-    { name: "Financial Hub", href: "/finance", icon: Wallet, roles: ["freelancer"] },
     { name: "Productivity", href: "/productivity", icon: LayoutDashboard, roles: ["freelancer"] },
     { name: "Calculator", href: "/calculator", icon: Calculator, roles: ["freelancer"] },
     { name: "Profile", href: "/profile", icon: UserCircle, roles: ["freelancer"] },
     { name: "Submit Work", href: "/freelancer/submit-work", icon: Bell, roles: ["freelancer"] },
 
     // Client Specific
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["client"] },
     { name: "Post Job", href: "/client/create-job", icon: PlusCircle, roles: ["client"] },
     { name: "Find Talent", href: "/client/find-freelancer", icon: Search, roles: ["client"] },
-    { name: "My Hires", href: "/client/hires", icon: Users, roles: ["client"] },
-    { name: "Payments", href: "/finance", icon: Wallet, roles: ["client"] },
+    { name: "My Hires", href: "/client/my-hires", icon: Users, roles: ["client"] },
   ];
 
   // Filter items based on role

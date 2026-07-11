@@ -125,5 +125,491 @@
     "related_job_id": "692888bbff0ffefd32848739",
     "is_read": false,
     "created_at": "2025-11-27T17:22:03.964Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_vlzkk",
+    "recipient_id": "user_100",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_9u7h1",
+    "recipient_id": "user_102",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_bq0u9",
+    "recipient_id": "user_103",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_ikfr6",
+    "recipient_id": "user_104",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_5x5v6",
+    "recipient_id": "user_105",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_2bkyi",
+    "recipient_id": "test_user_1764366398089",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_21azs",
+    "recipient_id": "test_user_1764367292591",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_ng0z2",
+    "recipient_id": "test_user_1764367413721",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_phsil",
+    "recipient_id": "test_user_1764368057368",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_pw448",
+    "recipient_id": "test_user_1764368126139",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_pyjlz",
+    "recipient_id": "test_user_1764373706469",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_ul4ox",
+    "recipient_id": "test_user_1764373790424",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_0nw4l",
+    "recipient_id": "user_1764379541722",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_2lhot",
+    "recipient_id": "user_1764433255332",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_6805a",
+    "recipient_id": "user_1764486823709",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_e37y3",
+    "recipient_id": "user_1764494255566",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_p7tu7",
+    "recipient_id": "user_1774729911677",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783787269101_04u31",
+    "recipient_id": "user_1783781379002",
+    "type": "job_match",
+    "message": "New Job Match: web developer (Web Development)",
+    "related_job_id": "6a526f048a46e21d21df8ff7",
+    "is_read": false,
+    "created_at": "2026-07-11T16:27:49.101Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_m4u3d",
+    "recipient_id": "user_100",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_rx5cr",
+    "recipient_id": "user_102",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_s96z6",
+    "recipient_id": "user_103",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_sd8hb",
+    "recipient_id": "user_104",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_9hw67",
+    "recipient_id": "user_105",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_a1dml",
+    "recipient_id": "test_user_1764366398089",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_4ryj6",
+    "recipient_id": "test_user_1764367292591",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_ustw5",
+    "recipient_id": "test_user_1764367413721",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_s7zyy",
+    "recipient_id": "test_user_1764368057368",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_h9ztg",
+    "recipient_id": "test_user_1764368126139",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_37obm",
+    "recipient_id": "test_user_1764373706469",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_u0a7m",
+    "recipient_id": "test_user_1764373790424",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_kyrzq",
+    "recipient_id": "user_1764379541722",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_7x3r8",
+    "recipient_id": "user_1764433255332",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_y5tjj",
+    "recipient_id": "user_1764486823709",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_hzzgb",
+    "recipient_id": "user_1764494255566",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_zav4j",
+    "recipient_id": "user_1774729911677",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783799167981_ns367",
+    "recipient_id": "user_1783781379002",
+    "type": "job_match",
+    "message": "New Job Match: blockchain dev (Blockchain)",
+    "related_job_id": "6a529d7fcefd70275c626543",
+    "is_read": false,
+    "created_at": "2026-07-11T19:46:07.981Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_rhs41",
+    "recipient_id": "user_100",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_58px0",
+    "recipient_id": "user_102",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_quq0y",
+    "recipient_id": "user_103",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_sz27q",
+    "recipient_id": "user_104",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_9jgc2",
+    "recipient_id": "user_105",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_829if",
+    "recipient_id": "test_user_1764366398089",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_0jm8r",
+    "recipient_id": "test_user_1764367292591",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_57lpu",
+    "recipient_id": "test_user_1764367413721",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_xhsrw",
+    "recipient_id": "test_user_1764368057368",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_uc5yg",
+    "recipient_id": "test_user_1764368126139",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_cb31j",
+    "recipient_id": "test_user_1764373706469",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_22xn8",
+    "recipient_id": "test_user_1764373790424",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_iaahe",
+    "recipient_id": "user_1764379541722",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_7xr11",
+    "recipient_id": "user_1764433255332",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_bjbh2",
+    "recipient_id": "user_1764486823709",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_vuppa",
+    "recipient_id": "user_1764494255566",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_i0z0g",
+    "recipient_id": "user_1774729911677",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
+  },
+  {
+    "notification_id": "notif_1783802503669_i13ve",
+    "recipient_id": "user_1783781379002",
+    "type": "job_match",
+    "message": "New Job Match: gen ai developer (AI/ML)",
+    "related_job_id": "6a52aa87cefd70275c62664d",
+    "is_read": false,
+    "created_at": "2026-07-11T20:41:43.669Z"
   }
 ]

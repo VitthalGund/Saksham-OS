@@ -25,7 +25,8 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
             return NextResponse.json({ message: "Job not found" }, { status: 404 });
         }
 
-        const isClient = session?.user?.id === job.clientId;
+        const clientIdStr = job.clientId?.toString() || "";
+        const isClient = session?.user?.id === clientIdStr || session?.user?.userId === clientIdStr;
         const isFreelancer = session?.user?.role === "freelancer";
 
         let responseData = { ...job.toObject() };

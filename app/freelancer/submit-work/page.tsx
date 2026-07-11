@@ -45,21 +45,35 @@ export default function SubmitWorkPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedJob || !workFile) return;
 
     setIsSubmitting(true);
     
-    // Simulate API upload (In real app, upload file to S3/Blob and save submission to DB)
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      // Reset form
-      setWorkFile(null);
-      setDescription("");
-      setSelectedJob("");
-    }, 2000);
+    try {
+        const res = await fetch(`/api/jobs/${selectedJob}/submit`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ notes: description }),
+        });
+
+        if (res.ok) {
+            setSubmitSuccess(true);
+            setWorkFile(null);
+            setDescription("");
+            setSelectedJob("");
+        } else {
+            const data = await res.json();
+            console.error("Failed to submit", data.message);
+            alert(data.message || "Failed to submit work");
+        }
+    } catch (e) {
+        console.error(e);
+        alert("An error occurred");
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (

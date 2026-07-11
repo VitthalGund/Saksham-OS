@@ -26,10 +26,15 @@ const JobSchema = new mongoose.Schema({
     clientName: { type: String },
     status: {
         type: String,
-        enum: ["Open", "InProgress", "Completed"],
+        enum: ["Open", "InProgress", "Pending Review", "Completed"],
         default: "Open"
     },
     assignedFreelancerId: { type: String },
+    acceptedAt: { type: Date },
+    submission: {
+        notes: { type: String },
+        submittedAt: { type: Date }
+    },
     bids: [{
         freelancerId: { type: String, required: true },
         freelancerName: { type: String, required: true },
@@ -40,5 +45,10 @@ const JobSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     job_id: { type: String }, // From CSV/JSON import
 });
+
+// Prevent Mongoose model caching issues in Next.js
+if (mongoose.models.Job) {
+    delete mongoose.models.Job;
+}
 
 export default mongoose.models.Job || mongoose.model("Job", JobSchema);

@@ -38,13 +38,12 @@ export default function FindFreelancerPage() {
   };
 
   useEffect(() => {
-    fetchFreelancers();
-  }, []); // Initial load
+    const delayDebounceFn = setTimeout(() => {
+      fetchFreelancers();
+    }, 300);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchFreelancers();
-  };
+    return () => clearTimeout(delayDebounceFn);
+  }, [filters.keyword, filters.category, filters.minExp, filters.maxExp]);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex">
@@ -114,9 +113,6 @@ export default function FindFreelancerPage() {
                             </div>
                         </div>
 
-                        <Button className="w-full" onClick={fetchFreelancers}>
-                            Apply Filters
-                        </Button>
                     </CardContent>
                 </Card>
             </div>
